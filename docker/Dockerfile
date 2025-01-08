@@ -5,10 +5,10 @@ WORKDIR /usr/src
 
 # Copy package files
 COPY package.json .
+COPY pnpm-workspace.yaml .
+COPY pnpm-lock.yaml .
+COPY turbo.json .
 COPY packages ./packages
-COPY lerna.json .
-COPY nx.json .
-COPY tsconfig.json .
 
 # Skip downloading Chrome for Puppeteer (saves build time)
 ENV PUPPETEER_SKIP_DOWNLOAD=true
@@ -19,9 +19,12 @@ RUN apk add --no-cache chromium git python3 py3-pip make g++ build-base cairo-de
 # Set the environment variable for Puppeteer to find Chromium
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
+# Install pnpm
+RUN npm install -g pnpm
+
 # Install dependencies and build
-RUN npm install
-RUN npm run build
+RUN pnpm install
+RUN pnpm build
 
 # Set environment variables
 ENV PORT=8080
@@ -30,4 +33,4 @@ ENV EXECUTION_MODE=main
 
 EXPOSE 8080
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
