@@ -1,0 +1,4 @@
+[build]
+builder = "DOCKER"
+dockerfilePath = "docker/Dockerfile"
+buildArgs = { BUILDKIT_INLINE_CACHE = "0", NO_CACHE = "1" } 
