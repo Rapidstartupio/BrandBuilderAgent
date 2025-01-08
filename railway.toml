@@ -1,4 +1,7 @@
 [build]
-builder = "DOCKER"
+builder = "DOCKERFILE"
 dockerfilePath = "docker/Dockerfile"
-buildArgs = { BUILDKIT_INLINE_CACHE = "0", NO_CACHE = "1" } 
+
+[build.args]
+BUILDKIT_INLINE_CACHE = "0"
+NO_CACHE = "1" 
