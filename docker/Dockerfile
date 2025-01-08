@@ -8,15 +8,15 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true
 
 # Add npm cache settings
 ENV NPM_CONFIG_CACHE=/tmp/npm-cache
-ENV NPM_CONFIG_REGISTRY=https://registry.npmjs.org/
+ENV NPM_CONFIG_REGISTRY=https://npm.pkg.github.com/
 ENV NPM_CONFIG_FETCH_RETRIES=5
 ENV NPM_CONFIG_FETCH_RETRY_FACTOR=5
 ENV NPM_CONFIG_FETCH_RETRY_MINTIMEOUT=20000
 ENV NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT=120000
 
-# Install latest Flowise globally with no-cache
+# Install latest Flowise globally with no-cache and increased timeout
 RUN npm cache clean --force && \
-    npm install -g flowise --no-cache
+    npm install -g flowise --no-cache --network-timeout=100000
 
 # Stage 2: Runtime stage
 FROM node:20-alpine
