@@ -1,6 +1,7 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "docker/Dockerfile"
+buildContext = "."
 
 [deploy]
 startCommand = "pnpm start"

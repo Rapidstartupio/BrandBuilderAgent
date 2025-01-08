@@ -1,14 +1,17 @@
 # Stage 1: Build stage
-FROM node:20-alpine
+FROM node:20.10.0-alpine3.19
 
-WORKDIR /usr/src
+# Set working directory
+WORKDIR /app
 
-# Copy package files
-COPY package.json .
-COPY pnpm-workspace.yaml .
-COPY pnpm-lock.yaml .
-COPY turbo.json .
-COPY packages ./packages
+# Copy root package files
+COPY ../package.json ./
+COPY ../pnpm-workspace.yaml ./
+COPY ../pnpm-lock.yaml ./
+COPY ../turbo.json ./
+
+# Copy packages directory
+COPY ../packages ./packages
 
 # Skip downloading Chrome for Puppeteer (saves build time)
 ENV PUPPETEER_SKIP_DOWNLOAD=true
@@ -20,10 +23,10 @@ RUN apk add --no-cache chromium git python3 py3-pip make g++ build-base cairo-de
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # Install pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@8.9.0
 
 # Install dependencies and build
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 RUN pnpm build
 
 # Set environment variables
