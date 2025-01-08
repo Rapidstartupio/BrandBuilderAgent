@@ -1,17 +1,20 @@
 # Stage 1: Build stage
-FROM node:20.10.0-alpine3.19
+FROM alpine:3.19
+
+# Install Node.js
+RUN apk add --no-cache nodejs npm
 
 # Set working directory
 WORKDIR /app
 
 # Copy root package files
-COPY ../package.json ./
-COPY ../pnpm-workspace.yaml ./
-COPY ../pnpm-lock.yaml ./
-COPY ../turbo.json ./
+COPY package.json ./
+COPY pnpm-workspace.yaml ./
+COPY pnpm-lock.yaml ./
+COPY turbo.json ./
 
 # Copy packages directory
-COPY ../packages ./packages
+COPY packages ./packages
 
 # Skip downloading Chrome for Puppeteer (saves build time)
 ENV PUPPETEER_SKIP_DOWNLOAD=true
